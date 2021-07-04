@@ -75,18 +75,32 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 **Version**: 1.0.0 
 
 ## Overview
-<!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for this class. (i.e. What's your problem domain?) -->
+A React App that uses API to present locations information according to search queries.
 
 ## Getting Started
-<!-- What are the steps that a user must take in order to build this app on their own machine and get it running? -->
-
++ Sign up in Location IQ and get the Access Token.
++ Creat React app.
++ install Axios and React bootstrap.
++ start writing the code.
 ## Architecture
-<!-- Provide a detailed description of the application design. What technologies (languages, libraries, etc) you're using, and any other relevant design information. -->
+React, Bootstrap, axios, API LocationIQ, netlify, Thunder Client.
 
-## Change Log
-<!-- Use this area to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an example:
 
-01-01-2001 4:59pm - Application now has a fully-functional express server, with a GET route for the location resource. -->
+# LAB 6:
+Name of feature: #1: Locations
+Estimate of time needed to complete: 2 hours
 
-## Credit and Collaborations
-<!-- Give credit (and a link) to other people or resources that helped you build this application. -->
+Start time: 3pm
+
+Finish time: 6pm
+
+Actual time needed to complete: 3 hours
+..................
+Name of feature: #2: Map
+Estimate of time needed to complete: 1 hour
+
+Start time: 7pm
+
+Finish time: 9pm
+
+Actual time needed to complete: not completed yet
