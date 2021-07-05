@@ -1,8 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import './App.css';
 
@@ -25,10 +24,12 @@ class App extends React.Component {
     await this.setState({
       checkQuery: e.target.city.value
     })
-
+    // console.log(process.env.REACT_APP_LOCATIONIQ_KEY);
+    // console.log(this.state.checkQuery);
     let url = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.checkQuery}&format=json`;
 
     let getData = await axios.get(url);
+    // console.log('aaaaaaa', getData);
 
     this.setState({
       placeData: getData.data[0],
@@ -43,11 +44,13 @@ class App extends React.Component {
       <div >
         <h1 id="title"> City Explorer </h1>
         <div id="div2">
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label id="city">City Name</Form.Label>
-            <Form.Control type="text" placeholder="Enter City Name" />
-          </Form.Group>
-          <Button id="button" onClick={this.getLocation} variant="primary">Explore!</Button>{' '}
+          <Form onSubmit={this.getLocation}>
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label id="city">City Name</Form.Label>
+              <Form.Control name="city" type="text" placeholder="Enter City Name" />
+            </Form.Group>
+            <input id="button" type='submit' value='Explore!' />
+          </Form>
 
           <Card style={{ width: '18rem' }} >
             <Card.Body>
@@ -60,7 +63,7 @@ class App extends React.Component {
           </Card>
         </div>
         {this.state.showMap &&
-          <img alt='' src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityData.lat},${this.state.cityData.lon}&zoom=15`} />
+          <img alt='' src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.placeData.lat},${this.state.placeData.lon}&zoom=15`} />
         }
 
       </div >
