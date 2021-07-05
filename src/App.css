@@ -71,3 +71,12 @@
   border-radius: 3px;
   border-color: rgb(87, 177, 87);
 }
+
+#alert {
+  border-radius: 3px;
+  background-color: rgb(255, 172, 204);
+  display: inline-block;
+  padding: 25px;
+  color: #41444d;
+  
+}
