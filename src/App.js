@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import './App.css';
 import Alert from 'react-bootstrap/Alert'
-
+import Weather from './components/Weather';
 
 class App extends React.Component {
 
@@ -14,7 +14,9 @@ class App extends React.Component {
     this.state = {
       placeData: {},
       checkQuery: '',
-      showMap: false
+      showMap: false,
+      showForcast: false,
+      days: null
 
     }
   }
@@ -32,9 +34,27 @@ class App extends React.Component {
       let getData = await axios.get(url);
       // console.log('aaaaaaa', getData);
 
+      let url2 = `https://rafeef-city.herokuapp.com/weather?city=${this.state.checkQuery}`;
+      try {
+        let getData2 = await axios.get(url2);
+        console.log(getData2.data);
+        this.setState({
+          days: getData2.data
+
+        })
+      } catch {
+
+        this.setState({
+          errorMsg: true
+
+        })
+
+      }
       this.setState({
         placeData: getData.data[0],
-        showMap: true
+        showMap: true,
+        showForcast: true,
+
       })
     } catch {
       this.setState({
@@ -72,10 +92,14 @@ class App extends React.Component {
           <img alt='' src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.placeData.lat},${this.state.placeData.lon}&zoom=15`} />
         }
 
+        {this.state.showForcast &&
+          <Weather forcast={this.state.days} />
+        }
+
         {
           this.state.errorMsg &&
           <Alert>
-          <Alert.Heading id="alert">Oh snap! You got an error! 👀</Alert.Heading>
+            <Alert.Heading id="alert">Oh snap! You got an error! 👀</Alert.Heading>
           </Alert>
         }
 
