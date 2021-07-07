@@ -4,8 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import './App.css';
-import Alert from 'react-bootstrap/Alert'
-import Weather from './components/Weather';
+// import Alert from 'react-bootstrap/Alert'
+import ListGroup from 'react-bootstrap/ListGroup'
 
 class App extends React.Component {
 
@@ -14,9 +14,13 @@ class App extends React.Component {
     this.state = {
       placeData: {},
       checkQuery: '',
+      errorMsg: false,
       showMap: false,
       showForcast: false,
       days: [],
+      weatherData: [],
+      movieData: [],
+      showMovieInfo: false
 
     }
   }
@@ -24,7 +28,7 @@ class App extends React.Component {
   getLocation = async (e) => {
     e.preventDefault();
 
-     this.setState({
+    await this.setState({
       checkQuery: e.target.city.value
     })
     // console.log(process.env.REACT_APP_LOCATIONIQ_KEY);
@@ -36,33 +40,48 @@ class App extends React.Component {
       this.setState({
         placeData: getData.data[0],
         showMap: true,
-        showForcast: true
+
 
       })
+      this.getWeatherData();
+      this.getMovieData();
+
     } catch {
       this.setState({
         errorMsg: true
       })
     }
-    // https://rafeef-city.herokuapp.com
-    let url2 = `https://rafeef-city.herokuapp.com/weather?city=${this.state.checkQuery}`;
-    console.log(url2);
-      try {
-        let getData2 = await axios.get(url2);
-        console.log(getData2.data);
-        this.setState({
-          days: getData2.data
+  }
+  getWeatherData = async () => {
+    try {
+      let weatherData = await axios.get(`${process.env.REACT_APP_SERVER}/weather?city=${this.state.checkQuery.charAt(0).toUpperCase() + this.state.checkQuery.slice(1)}`);
+      this.setState({
+        weatherData: weatherData.data,
+        showForcast: true
 
-        })
-      } catch {
+      })
+    }
+    catch {
+      this.setState({
+        errorMsg: true
+      })
+    }
+  }
 
-        this.setState({
-          errorMsg: true
-
-        })
-console.log(this.state.days);
-   } }
-  
+  getMovieData = async () => {
+    try {
+      let movieData = await axios.get(`${process.env.REACT_APP_SERVER}/movie?city=${this.state.checkQuery.charAt(0).toUpperCase() + this.state.checkQuery.slice(1)}`);
+      this.setState({
+        movieData: movieData.data,
+        showMovieInfo: true
+      })
+    }
+    catch {
+      this.setState({
+        errorMsg: true
+      })
+    }
+  }
 
 
 
@@ -92,21 +111,37 @@ console.log(this.state.days);
         {this.state.showMap &&
           <img alt='' src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.placeData.lat},${this.state.placeData.lon}&zoom=15`} />
         }
-
-        {this.state.showForcast &&
-          <Weather forcast={this.state.days} />
-        }
-
-        {/* {
-          this.state.errorMsg &&
+        {/* {this.state.errorMsg &&
           <Alert>
             <Alert.Heading id="alert">Oh snap! You got an error! 👀</Alert.Heading>
           </Alert>
         } */}
 
+        {this.state.weatherData.map((value, index) => (
+          <ListGroup as="ul" key={index}>
+            <ListGroup.Item as="li" >{value.date}</ListGroup.Item>
+            <ListGroup.Item as="li">{value.description}</ListGroup.Item>
+          </ListGroup>))}
+
+        {this.state.movieData.map((value, index) => (
+          <ListGroup as="ul" key={index}>
+            <ListGroup.Item as="li" >Movie Title: {value.title}</ListGroup.Item>
+            <ListGroup.Item as="li">Movie Overview: {value.overview}</ListGroup.Item>
+            <ListGroup.Item as="li">Average Votes:{value.average_votes}</ListGroup.Item>
+            <ListGroup.Item as="li">Total Votes: {value.total_votes}</ListGroup.Item>
+            <ListGroup.Item as="li">Image: <img src={value.image_url} alt=''></img></ListGroup.Item>
+            <ListGroup.Item as="li">Popularity: {value.popularity}</ListGroup.Item>
+            <ListGroup.Item as="li">Released Date: {value.released_on}</ListGroup.Item>
+
+          </ListGroup>
+
+        ))}
+
+
+
       </div >
     )
-      }
+  }
 }
 
 export default App;
