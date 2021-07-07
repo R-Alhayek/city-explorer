@@ -104,3 +104,23 @@ Start time: 7pm
 Finish time: 9pm
 
 Actual time needed to complete: not completed yet
+............................
+Name of feature: #1: LAB 7
+
+Estimate of time needed to complete: 5 hours
+
+Start time: 8pm
+
+Finish time: Wednesday 10pm
+
+Actual time needed to complete: 2 days
+.............................
+Name of feature: #1: LAB 8
+
+Estimate of time needed to complete: 5 hours
+
+Start time: Wednesday 10pm
+
+Finish time: Tuesday 1 am
+
+Actual time needed to complete: nearly 24 hours
