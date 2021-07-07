@@ -16,7 +16,7 @@ class App extends React.Component {
       checkQuery: '',
       showMap: false,
       showForcast: false,
-      days: null
+      days: [],
 
     }
   }
@@ -24,7 +24,7 @@ class App extends React.Component {
   getLocation = async (e) => {
     e.preventDefault();
 
-    await this.setState({
+     this.setState({
       checkQuery: e.target.city.value
     })
     // console.log(process.env.REACT_APP_LOCATIONIQ_KEY);
@@ -33,8 +33,20 @@ class App extends React.Component {
     try {
       let getData = await axios.get(url);
       // console.log('aaaaaaa', getData);
+      this.setState({
+        placeData: getData.data[0],
+        showMap: true,
+        showForcast: true
 
-      let url2 = `https://rafeef-city.herokuapp.com/weather?city=${this.state.checkQuery}`;
+      })
+    } catch {
+      this.setState({
+        errorMsg: true
+      })
+    }
+    // https://rafeef-city.herokuapp.com
+    let url2 = `https://rafeef-city.herokuapp.com/weather?city=${this.state.checkQuery}`;
+    console.log(url2);
       try {
         let getData2 = await axios.get(url2);
         console.log(getData2.data);
@@ -48,20 +60,9 @@ class App extends React.Component {
           errorMsg: true
 
         })
-
-      }
-      this.setState({
-        placeData: getData.data[0],
-        showMap: true,
-        showForcast: true,
-
-      })
-    } catch {
-      this.setState({
-        errorMsg: true
-      })
-    }
-  }
+console.log(this.state.days);
+   } }
+  
 
 
 
@@ -96,16 +97,16 @@ class App extends React.Component {
           <Weather forcast={this.state.days} />
         }
 
-        {
+        {/* {
           this.state.errorMsg &&
           <Alert>
             <Alert.Heading id="alert">Oh snap! You got an error! 👀</Alert.Heading>
           </Alert>
-        }
+        } */}
 
       </div >
     )
-  }
+      }
 }
 
 export default App;

@@ -12,12 +12,12 @@ class Weather extends React.Component {
                 <div>
 
                     {this.props.forcast.map(day => {
-                        return <div> <Card style={{ width: '18rem' }}>
+                        return( <div> <Card style={{ width: '18rem' }}>
                             <ListGroup variant="flush">
                                 <ListGroup.Item>{day.date} {day.description}</ListGroup.Item>
 
                             </ListGroup>
-                        </Card> </div>
+                        </Card> </div>)
                     })}
                 </div>
 
