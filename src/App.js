@@ -4,8 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import './App.css';
-// import Alert from 'react-bootstrap/Alert'
-import ListGroup from 'react-bootstrap/ListGroup'
+import Weather from './components/Weather';
+import Movie from './components/Movie';
+
 
 class App extends React.Component {
 
@@ -111,31 +112,14 @@ class App extends React.Component {
         {this.state.showMap &&
           <img alt='' src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.placeData.lat},${this.state.placeData.lon}&zoom=15`} />
         }
-        {/* {this.state.errorMsg &&
-          <Alert>
-            <Alert.Heading id="alert">Oh snap! You got an error! 👀</Alert.Heading>
-          </Alert>
-        } */}
+         {this.state.errorMsg && <p id="alert">Oh snap! You got an error! 👀</p>}
 
-        {this.state.weatherData.map((value, index) => (
-          <ListGroup as="ul" key={index}>
-            <ListGroup.Item as="li" >{value.date}</ListGroup.Item>
-            <ListGroup.Item as="li">{value.description}</ListGroup.Item>
-          </ListGroup>))}
 
-        {this.state.movieData.map((value, index) => (
-          <ListGroup as="ul" key={index}>
-            <ListGroup.Item as="li" >Movie Title: {value.title}</ListGroup.Item>
-            <ListGroup.Item as="li">Movie Overview: {value.overview}</ListGroup.Item>
-            <ListGroup.Item as="li">Average Votes:{value.average_votes}</ListGroup.Item>
-            <ListGroup.Item as="li">Total Votes: {value.total_votes}</ListGroup.Item>
-            <ListGroup.Item as="li">Image: <img src={value.image_url} alt=''></img></ListGroup.Item>
-            <ListGroup.Item as="li">Popularity: {value.popularity}</ListGroup.Item>
-            <ListGroup.Item as="li">Released Date: {value.released_on}</ListGroup.Item>
+         <Weather weatherData={this.state.weatherData}/>
+         <Movie movieData={this.state.movieData}/>
+          
 
-          </ListGroup>
-
-        ))}
+        
 
 
 
